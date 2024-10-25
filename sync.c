@@ -1,12 +1,11 @@
 #include <stdio.h>
 #include <pthread.h>
+#include "sync.h"
 
-typedef struct {
-    pthread_mutex_t lock;
-    int value;
-    int valueIsAvailable;
-} ThreadInfo;
 
+void *controller(void *param){
+
+}
 void *sender(void *param) {
     int numWritten, valueToWrite;
     ThreadInfo *tinfo = (ThreadInfo *) param;
@@ -58,14 +57,32 @@ void *reciever(void *param) {
 //--------------------------------------------------
 
 int main() {
-    ThreadInfo tinfo;
+    //create mutex lock
+    pthread_mutex_t mutex1 = PTHREAD_MUTEX_INITIALIZER;
+    //create dataInfo's
+    DataInfo dataArray[2] = {
+            {
+                    .recipientID = 12345,
+                    .message = "Hello, this is the first message.",
+                    .reply = "",
+                    .messageReady = true,
+                    .replyReady = false,
+                    .mutex = &mutex1
+            },
+            {
+                    .recipientID = 67890,
+                    .message = "Hello, this is the second message.",
+                    .reply = "",
+                    .messageReady = true,
+                    .replyReady = false,
+                    .mutex = &mutex1
+            }
+    };
     pthread_t producerTid, consumerTid;
 
-    pthread_mutex_init(&tinfo.lock, NULL);
-    tinfo.valueIsAvailable = 0;
-
-    pthread_create(&producerTid, NULL, sender, &tinfo);
-    pthread_create(&consumerTid, NULL, reciever, &tinfo);
+    //create producer and consumers
+    pthread_create(&producerTid, NULL, sender, &dataArray[0]);
+    pthread_create(&consumerTid, NULL, reciever, &dataArray[1]);
 
     pthread_join(producerTid, NULL);
     pthread_join(consumerTid, NULL);
