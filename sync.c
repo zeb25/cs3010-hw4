@@ -2,6 +2,13 @@
 #include <pthread.h>
 #include "sync.h"
 
+void spin(int val) {
+    for (int i = 0; i < val; i++) {
+        for (int j = 0; j < val; j++ ){
+            // spin
+        }
+    }
+}
 
 void *controller(void *param){
 
@@ -29,7 +36,7 @@ void *sender(void *param) {
 
     printf("producer is exiting\n");
     pthread_exit(NULL);
-} // producer
+} // sender function
 
 //--------------------------------------------------
 
