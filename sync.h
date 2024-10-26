@@ -14,6 +14,7 @@ typedef struct {
     bool done;
     // whether or not the program is done
     pthread_mutex_t *mutex; // synchronization for this variable
+    pthread_cond_t *doneCond;
 } ControlInfo;
 typedef struct {
     int recipientID;
@@ -24,6 +25,8 @@ typedef struct {
     // whether data is ready for the recipient
     bool replyReady;
     pthread_mutex_t *mutex;
+    pthread_cond_t *messageCond;
+    pthread_cond_t *replyCond;
 } DataInfo;
 typedef struct {
     int myID;
