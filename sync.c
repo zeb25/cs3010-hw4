@@ -6,7 +6,6 @@
 #include <stdlib.h>
 //Mikey Hayes and Zoe Bell
 
-
 void* controller(void* arg) {
     ControlInfo* controlInfo = (ControlInfo*)arg;
 
